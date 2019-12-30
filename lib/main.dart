@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 
 import 'Screens/home_screem.dart';
 
@@ -9,8 +11,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+     localizationsDelegates: [
+   GlobalMaterialLocalizations.delegate,
+   GlobalWidgetsLocalizations.delegate,
+   GlobalCupertinoLocalizations.delegate,
+ ],
+ supportedLocales: [
+    const Locale('ar'), // Arabic
+   
+  ],
+      title: 'الأدب الخالد',
       theme: ThemeData(
+        fontFamily: 'ExpoArabic',
       
         primarySwatch: Colors.blue,
       ),

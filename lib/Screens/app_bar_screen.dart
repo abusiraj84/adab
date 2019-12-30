@@ -5,10 +5,15 @@ class AppBarScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Icon(Icons.menu)
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Row(
+        children: <Widget>[
+          Icon(Icons.menu),
+          Spacer(),
+          Text('الأدب الخالد')
+        ],
+      ),
     );
   }
 }
