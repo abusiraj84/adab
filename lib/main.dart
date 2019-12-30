@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'Providers/colors.dart';
+import 'Providers/videos.dart';
 import 'Screens/home_screen.dart';
 
 void main() => runApp(MyApp());
@@ -24,16 +25,14 @@ class MyApp extends StatelessWidget {
       title: 'الأدب الخالد',
       theme: ThemeData(
         fontFamily: 'ExpoArabic',
-      
-        
       ),
-      
-      home:  MultiProvider(
-      providers: [
-         Provider<MyColors>(create: (_) => MyColors()),
-       
-      ],
-      child: HomeScreen(),
-    ));
+      home: MultiProvider(
+        providers: [
+          Provider<MyColors>(create: (_) => MyColors()),
+          ChangeNotifierProvider<Videos>(create: (_) => Videos()),
+        ],
+        child: HomeScreen(),
+      ),
+    );
   }
 }

@@ -17,8 +17,8 @@ class AppBarScreen extends StatelessWidget {
           Text('الأدب الخالد',style: TextStyle(fontWeight: FontWeight.bold,color: myColors.yellow,fontSize: 20),),
           Spacer(),
           Parent(
-            style: ParentStyle()..circle(true)..background.color(Colors.grey.shade300)..padding(all: 8)..elevation(2),
-            child: Icon(Icons.menu,size: 15,),
+            style: ParentStyle()..background.color(Colors.grey.shade300)..elevation(1)..borderRadius(all: 50),
+            child: Parent(style:ParentStyle()..circle(true)..ripple(true)..padding(all: 8)..borderRadius(all: 50), child: Icon(Icons.favorite,color: Colors.red,size: 15,)),
           )
           
         ],
