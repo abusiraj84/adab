@@ -36,10 +36,25 @@ class StoryItem extends StatelessWidget {
         ..elevation(1)
         ..margin(left: 10, bottom: 5),
       child: Parent(
+        style: ParentStyle()
+          ..background.image(url: imgUrl, fit: BoxFit.cover)
+          ..border(all: 2, color: Colors.white)
+          ..borderRadius(all: 22)
+          ..ripple(true),
+        child: Center(
+            child: Parent(
           style: ParentStyle()
-            ..background.image(url: imgUrl, fit: BoxFit.cover)
-            ..border(all: 2, color: Colors.white)
-            ..borderRadius(all: 22)),
+            ..circle(true)
+            ..background.color(
+                myColors.multiColors[Random().nextInt(4)].withOpacity(.5))
+            ..padding(all: 10)
+            ..elevation(2),
+          child: Icon(
+            Icons.play_arrow,
+            color: Colors.white,
+          ),
+        )),
+      ),
     );
   }
 }

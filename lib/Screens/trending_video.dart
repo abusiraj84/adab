@@ -47,13 +47,14 @@ class TrendingVideos extends StatelessWidget {
               itemCount: list.length,
               itemBuilder: (BuildContext context, int i) {
                 return ChangeNotifierProvider.value(
-                  value:list[i],
-                    child: TrendItem(
-                  // id: list[i].id,
-                  // imgUrl: list[i].imgUrl,
-                  // catid: list[i].catid,
-                  // title: list[i].title,
-                ));
+                  value: list[i],
+                  child: TrendItem(
+                      // id: list[i].id,
+                      // imgUrl: list[i].imgUrl,
+                      // catid: list[i].catid,
+                      // title: list[i].title,
+                      ),
+                );
               },
             ),
           )

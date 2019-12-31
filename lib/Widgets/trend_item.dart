@@ -73,6 +73,7 @@ class TrendItem extends StatelessWidget {
               ),
             ),
           ),
+          
           Txt(
             video.catid.toString(),
             style: TxtStyle()
