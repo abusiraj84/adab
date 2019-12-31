@@ -13,6 +13,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   final myColors = Provider.of<MyColors>(context);
+  
     return Scaffold(
       backgroundColor:Color(0xfff1f1f1) ,
       // backgroundColor:myColors.grey ,

@@ -29,6 +29,7 @@ dependencies:
   provider:
   division:
   page_transition:
+  shared_preferences: ^0.5.6
 
 
 dev_dependencies:
