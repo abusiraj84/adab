@@ -3,11 +3,12 @@ import 'package:adab/db/helper_presenter.dart';
 import 'package:http/http.dart';
 
 import '../Providers/videos.dart';
-import 'package:adab/Screens/app_bar_back_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'package:achievement_view/achievement_view.dart';
+
+import 'app_bar_detail.dart';
 
 class VideoDetailScreen extends StatefulWidget {
   @override
@@ -25,7 +26,11 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
   void initState() {
     super.initState();
     homePresenter = HomePresenter(this);
-    myIcon = Icons.favorite_border;
+  }
+
+  @override
+  void screenUpdate() {
+  
   }
 
   @override
@@ -35,7 +40,7 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
         .list
         .firstWhere((aud) => aud.id == audioid);
     Future insertVideo(
-        BuildContext context, HomePresenter homePresenter) async {
+        BuildContext context, HomePresenter homePresenter, data) async {
       //Client client = Client();
       Favorites favorites = Favorites(
         audiopost.id,
@@ -44,12 +49,14 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
       );
       await homePresenter.db.insertMovie(favorites);
       homePresenter.updateScreen();
+
+     
     }
 
     YoutubePlayerController _controller = YoutubePlayerController(
       initialVideoId: audiopost.imgUrl,
       flags: YoutubePlayerFlags(
-        autoPlay: false,
+        autoPlay: true,
         mute: false,
         controlsVisibleAtStart: true,
       ),
@@ -59,7 +66,7 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            AppBarBackScreen(),
+            AppBarDetailScreen(),
             // Image.network(
             //   audiopost.imgUrl,
             //   fit: BoxFit.cover,
@@ -81,13 +88,13 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
                   var data = snapshot.data;
 
                   if (isItRecord != true) isItRecord = data;
-                  print('girdi');
+                  // print('girdi');
 
                   return isItRecord == false
                       ? InkWell(
                           onTap: () {
                             setState(() {
-                              insertVideo(context, homePresenter);
+                              insertVideo(context, homePresenter,data);
                               isItRecord = true;
                               print('inserted to db success');
                               AchievementView(context,
@@ -103,11 +110,11 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
                                   color: Colors.amber,
                                   textStyleTitle: TextStyle(fontSize: 13),
                                   textStyleSubTitle: TextStyle(fontSize: 12),
-                                  alignment: Alignment.center,
-                                  //duration: Duration(seconds: 3),
+                                  alignment: Alignment.bottomCenter,
+                                  duration: Duration(seconds: 1),
                                   //isCircle: false,
                                   listener: (status) {
-                                print(status);
+                                //print(status);
                                 //AchievementState.opening
                                 //AchievementState.open
                                 //AchievementState.closing
@@ -137,14 +144,14 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
                                   ),
                                   //typeAnimationContent: AnimationTypeAchievement.fadeSlideToUp,
                                   //borderRadius: 5.0,
-                                  //color: Colors.blueGrey,
-                                  //textStyleTitle: TextStyle(),
-                                  //textStyleSubTitle: TextStyle(),
-                                  //alignment: Alignment.topCenter,
-                                  //duration: Duration(seconds: 3),
+                                  color: Colors.amber,
+                                  textStyleTitle: TextStyle(fontSize: 13),
+                                  textStyleSubTitle: TextStyle(fontSize: 12),
+                                  alignment: Alignment.bottomCenter,
+                                  duration: Duration(seconds: 1),
                                   //isCircle: false,
                                   listener: (status) {
-                                print(status);
+                               // print(status);
                                 //AchievementState.opening
                                 //AchievementState.open
                                 //AchievementState.closing
@@ -163,10 +170,5 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
         ),
       ),
     );
-  }
-
-  @override
-  void screenUpdate() {
-    setState(() {});
   }
 }

@@ -35,29 +35,33 @@ class DatabaseHelper {
   Future<int> insertMovie(Favorites favorites) async {
     var dbClient = await db;
     List<Map> list = await dbClient
-        .rawQuery('SELECT * from $userTable WHERE id = ?', [favorites.id]);
+        .rawQuery('SELECT * from Favorites WHERE id = ?', [favorites.id]);
     int res;
 
     list.length == 0
-        ? res = await dbClient.insert("$userTable", favorites.toMap())
+        ? res = await dbClient.insert("Favorites", favorites.toMap())
         : {};
-
+ print(favorites.toMap());
+ 
     return res;
+    
   }
 
   Future<List<Favorites>> getFavorites() async {
     var dbClient = await db;
-    var sql = "SELECT * FROM $userTable";
+    var sql = "SELECT * FROM Favorites";
+    
 
     List<Map> list = await dbClient.rawQuery(sql);
     List<Favorites> favorites = List();
 
     for (var i = 0; i < list.length; i++) {
       var favorite = Favorites(
-          list[i]['id'], list[i]['title'], list[i]['title']['imagePath']);
+          list[i]['id'], list[i]['title'], list[i]['imagePath']);
       favorite.setFavoritesId(list[i]['id']);
       favorites.add(favorite);
     }
+    print(favorites);
     return favorites;
   }
 

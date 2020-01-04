@@ -1,4 +1,6 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:achievement_view/achievement_view.dart';
+import 'package:adab/db/favorite_model.dart';
+import 'package:adab/db/helper_presenter.dart';
 
 import '../Providers/video.dart';
 import 'package:division/division.dart';
@@ -6,48 +8,41 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TrendItem extends StatefulWidget {
-  bool isFavorite;
-  int id;
+  final int id;
+  final String title;
+  final String imgUrl;
 
-  TrendItem({this.isFavorite, this.id});
+  TrendItem({this.id, this.title, this.imgUrl});
 
   @override
   _TrendItemState createState() => _TrendItemState();
 }
 
-const String spKey = 'myBool';
-
-class _TrendItemState extends State<TrendItem> {
-  SharedPreferences sharedPreferences;
-  bool _testValue;
+class _TrendItemState extends State<TrendItem> implements HomeContract {
+  HomePresenter homePresenter;
+  bool isItRecord = false;
 
   @override
   void initState() {
     super.initState();
-    SharedPreferences.getInstance().then((SharedPreferences sp) {
-      sharedPreferences = sp;
-      _testValue = sharedPreferences.getBool(widget.id.toString());
-      // will be null if never previously saved
-
-      if (_testValue == null) {
-        _testValue = false;
-        persist(_testValue); // set an initial value
-      }
-
-      setState(() {});
-    });
-  }
-
-  void persist(bool value) {
-    setState(() {
-      _testValue = value;
-    });
-    sharedPreferences?.setBool(widget.id.toString(), value);
+    homePresenter = HomePresenter(this);
   }
 
   @override
   Widget build(BuildContext context) {
     final video = Provider.of<Video>(context, listen: false);
+
+    Future insertVideo(
+        BuildContext context, HomePresenter homePresenter, data) async {
+      //Client client = Client();
+      Favorites favorites = Favorites(
+        widget.id,
+        widget.title,
+        widget.imgUrl,
+      );
+      await homePresenter.db.insertMovie(favorites);
+      homePresenter.updateScreen();
+    }
 
     return Parent(
       style: ParentStyle()
@@ -85,23 +80,101 @@ class _TrendItemState extends State<TrendItem> {
                     builder: (ctx, video, child) => Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
-                        GestureDetector(
-                          child: Icon(
-                            _testValue != false
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            color: Colors.red.shade600,
-                            size: 20,
-                          ),
-                          onTap: () {
-                            video.toggleFavoriteStatus();
-                            _testValue = !_testValue;
-                            widget.isFavorite = _testValue;
-                            sharedPreferences.setBool(
-                                widget.id.toString(), _testValue);
-                            print(widget.isFavorite);
-                          },
-                        ),
+                        FutureBuilder<bool>(
+                            future: homePresenter.isItRecord(widget.id),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasError) print(snapshot.error);
+                              var data = snapshot.data;
+
+                              if (isItRecord != true) isItRecord = data;
+                              // print('girdi');
+
+                              return isItRecord == false
+                                  ? InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          insertVideo(
+                                              context, homePresenter, data);
+                                          isItRecord = true;
+                                          print('inserted to db success');
+                                          AchievementView(context,
+                                              title: "تمت إضافته للمفضلة",
+                                              subTitle:
+                                                  "يمكنك الرجوع إليها في قسم المفضلة",
+                                              //onTab: _onTabAchievement,
+                                              icon: Icon(
+                                                Icons.favorite,
+                                                color: Colors.red,
+                                              ),
+                                              //typeAnimationContent: AnimationTypeAchievement.fadeSlideToUp,
+                                              //borderRadius: 5.0,
+                                              color: Colors.amber,
+                                              textStyleTitle: TextStyle(
+                                                fontSize: 13,
+                                                color: Colors.black,
+                                              ),
+                                              textStyleSubTitle:
+                                                  TextStyle(fontSize: 12),
+                                              alignment: Alignment.bottomCenter,
+                                              duration: Duration(seconds: 1),
+                                              //isCircle: false,
+                                              listener: (status) {
+                                            //print(status);
+                                            //AchievementState.opening
+                                            //AchievementState.open
+                                            //AchievementState.closing
+                                            //AchievementState.closed
+                                          })
+                                            ..show();
+                                        });
+                                      },
+                                      child: Icon(
+                                        Icons.favorite_border,
+                                        color: Colors.red,
+                                      ),
+                                    )
+                                  : InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          homePresenter.delete(widget.id);
+                                          isItRecord = false;
+                                          print('deleted from db success');
+                                          AchievementView(context,
+                                              title:
+                                                  "تم إزالة الفيديو من المفضلة",
+                                              subTitle: "",
+                                              //onTab: _onTabAchievement,
+                                              icon: Icon(
+                                                Icons.delete,
+                                                color: Colors.white,
+                                              ),
+                                              //typeAnimationContent: AnimationTypeAchievement.fadeSlideToUp,
+                                              //borderRadius: 5.0,
+                                              color: Colors.black,
+                                              textStyleTitle:
+                                                  TextStyle(fontSize: 13),
+                                              textStyleSubTitle:
+                                                  TextStyle(fontSize: 12),
+                                              alignment: Alignment.bottomCenter,
+                                              duration: Duration(seconds: 1),
+                                              //isCircle: false,
+                                              listener: (status) {
+                                            // print(status);
+                                            //AchievementState.opening
+                                            //AchievementState.open
+                                            //AchievementState.closing
+                                            //AchievementState.closed
+                                          })
+                                            ..show();
+                                        });
+                                      },
+                                      child: Icon(
+                                        Icons.favorite,
+                                        color: Colors.red,
+                                      ),
+                                    );
+                            }),
                         Spacer(),
                         Text(
                           '200',
@@ -137,4 +210,7 @@ class _TrendItemState extends State<TrendItem> {
       ),
     );
   }
+
+  @override
+  void screenUpdate() {}
 }

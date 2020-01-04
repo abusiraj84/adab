@@ -21,7 +21,7 @@ class _TrendingVideosState extends State<TrendingVideos> {
 
     return Parent(
       style: ParentStyle()
-        ..height(300)
+        ..height(290)
         ..background.color(Colors.white)
         ..margin(top: 20, right: 10, bottom: 20)
         ..borderRadius(topRight: 30, bottomRight: 30)
@@ -56,14 +56,7 @@ class _TrendingVideosState extends State<TrendingVideos> {
               itemBuilder: (BuildContext context, int i) {
                 return ChangeNotifierProvider.value(
                   value: list[i],
-                  child: TrendItem(
-                      // id: list[i].id,
-                      // imgUrl: list[i].imgUrl,
-                      // catid: list[i].catid,
-                      // title: list[i].title,
-
-                      id: list[i].id),
-                );
+                  child: TrendItem(id: list[i].id,title:list[i].title,imgUrl: list[i].imgUrl));
               },
             ),
           )
