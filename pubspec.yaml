@@ -30,8 +30,13 @@ dependencies:
   division:
   page_transition:
   shared_preferences: ^0.5.6
+  youtube_player_flutter: ^6.0.3+2
+  http:
+  sqflite: ^1.2.0
+  path_provider: ^1.5.1
+  achievement_view: ^0.2.0
 
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../Providers/videos.dart';
 
 import '../Widgets/trend_item.dart';
@@ -5,11 +7,17 @@ import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class TrendingVideos extends StatelessWidget {
+class TrendingVideos extends StatefulWidget {
+  @override
+  _TrendingVideosState createState() => _TrendingVideosState();
+}
+
+class _TrendingVideosState extends State<TrendingVideos> {
   @override
   Widget build(BuildContext context) {
     final videosData = Provider.of<Videos>(context);
     final list = videosData.list;
+    SharedPreferences prefs;
 
     return Parent(
       style: ParentStyle()
@@ -53,7 +61,8 @@ class TrendingVideos extends StatelessWidget {
                       // imgUrl: list[i].imgUrl,
                       // catid: list[i].catid,
                       // title: list[i].title,
-                      ),
+
+                      id: list[i].id),
                 );
               },
             ),

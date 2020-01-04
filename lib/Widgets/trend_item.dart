@@ -1,9 +1,50 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../Providers/video.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class TrendItem extends StatelessWidget {
+class TrendItem extends StatefulWidget {
+  bool isFavorite;
+  int id;
+
+  TrendItem({this.isFavorite, this.id});
+
+  @override
+  _TrendItemState createState() => _TrendItemState();
+}
+
+const String spKey = 'myBool';
+
+class _TrendItemState extends State<TrendItem> {
+  SharedPreferences sharedPreferences;
+  bool _testValue;
+
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then((SharedPreferences sp) {
+      sharedPreferences = sp;
+      _testValue = sharedPreferences.getBool(widget.id.toString());
+      // will be null if never previously saved
+
+      if (_testValue == null) {
+        _testValue = false;
+        persist(_testValue); // set an initial value
+      }
+
+      setState(() {});
+    });
+  }
+
+  void persist(bool value) {
+    setState(() {
+      _testValue = value;
+    });
+    sharedPreferences?.setBool(widget.id.toString(), value);
+  }
+
   @override
   Widget build(BuildContext context) {
     final video = Provider.of<Video>(context, listen: false);
@@ -19,12 +60,15 @@ class TrendItem extends StatelessWidget {
         children: <Widget>[
           GestureDetector(
             onDoubleTap: () {
-              video.toggleFavoriteStatus();
+              // video.toggleFavoriteStatus();
             },
             child: Parent(
               style: ParentStyle()
                 ..height(150)
-                ..background.image(url: video.imgUrl, fit: BoxFit.cover)
+                ..background.image(
+                    url:
+                        'https://img.youtube.com/vi/${video.imgUrl}/maxresdefault.jpg',
+                    fit: BoxFit.cover)
                 ..borderRadius(all: 22)
                 ..elevation(1)
                 ..ripple(true),
@@ -43,7 +87,7 @@ class TrendItem extends StatelessWidget {
                       children: <Widget>[
                         GestureDetector(
                           child: Icon(
-                            video.isFavorite
+                            _testValue != false
                                 ? Icons.favorite
                                 : Icons.favorite_border,
                             color: Colors.red.shade600,
@@ -51,6 +95,11 @@ class TrendItem extends StatelessWidget {
                           ),
                           onTap: () {
                             video.toggleFavoriteStatus();
+                            _testValue = !_testValue;
+                            widget.isFavorite = _testValue;
+                            sharedPreferences.setBool(
+                                widget.id.toString(), _testValue);
+                            print(widget.isFavorite);
                           },
                         ),
                         Spacer(),
@@ -73,7 +122,6 @@ class TrendItem extends StatelessWidget {
               ),
             ),
           ),
-          
           Txt(
             video.catid.toString(),
             style: TxtStyle()

@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../Providers/colors.dart';
 import '../Screens/story_screen.dart';
 import 'package:flutter/material.dart';
@@ -12,26 +14,22 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final myColors = Provider.of<MyColors>(context);
-  
+    final myColors = Provider.of<MyColors>(context);
+
     return Scaffold(
-      backgroundColor:Color(0xfff1f1f1) ,
+      backgroundColor: Color(0xfff1f1f1),
       // backgroundColor:myColors.grey ,
       body: SafeArea(
-        
-              child: Column(
+        child: Column(
           children: <Widget>[
             //appbar
             AppBarScreen(),
 
             //Story
-            Container(height: 140, child: StoryScreen()),
+            Container(height: 120, child: StoryScreen()),
 
             //Trending Videos
-            TrendingVideos()
-
-
-
+            TrendingVideos(),
           ],
         ),
       ),

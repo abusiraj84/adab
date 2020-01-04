@@ -25,36 +25,42 @@ class StoryItem extends StatelessWidget {
     final myColors = Provider.of<MyColors>(context);
 
     return Parent(
-      style: ParentStyle()
-        ..height(140)
-        ..width(120)
-        ..borderRadius(all: 25)
-        ..border(
-          all: 3.5,
-          color: myColors.multiColors[Random().nextInt(4)],
-        )
-        ..elevation(1)
-        ..margin(left: 10, bottom: 5),
-      child: Parent(
         style: ParentStyle()
-          ..background.image(url: imgUrl, fit: BoxFit.cover)
-          ..border(all: 2, color: Colors.white)
-          ..borderRadius(all: 22)
-          ..ripple(true),
-        child: Center(
-            child: Parent(
+          ..width(180)
+          ..borderRadius(all: 25)
+          ..border(
+            all: 3.5,
+            color: myColors.multiColors[Random().nextInt(4)],
+          )
+          ..elevation(1)
+          ..margin(left: 10, bottom: 5),
+        child: Parent(
           style: ParentStyle()
-            ..circle(true)
-            ..background.color(
-                myColors.multiColors[Random().nextInt(4)].withOpacity(.5))
-            ..padding(all: 10)
-            ..elevation(2),
-          child: Icon(
-            Icons.play_arrow,
-            color: Colors.white,
-          ),
-        )),
-      ),
-    );
+            ..background.image(
+                url: 'https://img.youtube.com/vi/$imgUrl/maxresdefault.jpg',
+                fit: BoxFit.fill)
+            ..border(all: 2, color: Colors.white)
+            ..borderRadius(all: 22)
+            ..ripple(true),
+          child: Center(
+              child: Parent(
+            style: ParentStyle()
+              ..circle(true)
+              ..background.color(
+                  myColors.multiColors[Random().nextInt(4)].withOpacity(.5))
+              ..padding(all: 10)
+              ..elevation(2),
+            child: Icon(
+              Icons.play_arrow,
+              color: Colors.white,
+            ),
+          )),
+        ),
+        gesture: Gestures()
+          ..isTap((isPressed) => Navigator.pushNamed(
+                context,
+                '/audio-detail',
+                arguments: id,
+              )));
   }
 }
