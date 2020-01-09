@@ -1,6 +1,5 @@
 import 'package:adab/db/favorite_model.dart';
 import 'package:adab/db/helper_presenter.dart';
-import 'package:http/http.dart';
 
 import '../Providers/videos.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,6 @@ class VideoDetailScreen extends StatefulWidget {
   _VideoDetailScreenState createState() => _VideoDetailScreenState();
 }
 
-IconData myIcon;
 
 class _VideoDetailScreenState extends State<VideoDetailScreen>
     implements HomeContract {
@@ -35,7 +33,7 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    final audioid = ModalRoute.of(context).settings.arguments as int;
+    final audioid = ModalRoute.of(context).settings.arguments as String;
     final audiopost = Provider.of<Videos>(context)
         .list
         .firstWhere((aud) => aud.id == audioid);
@@ -43,9 +41,10 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
         BuildContext context, HomePresenter homePresenter, data) async {
       //Client client = Client();
       Favorites favorites = Favorites(
-        audiopost.id,
+        int.parse(audiopost.id),
         audiopost.title,
         audiopost.imgUrl,
+        audiopost.body,
       );
       await homePresenter.db.insertMovie(favorites);
       homePresenter.updateScreen();
@@ -83,7 +82,7 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
             ),
             FutureBuilder<bool>(
                 future: homePresenter.isItRecord(audiopost.id),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                       builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasError) print(snapshot.error);
                   var data = snapshot.data;
 
@@ -131,7 +130,7 @@ class _VideoDetailScreenState extends State<VideoDetailScreen>
                       : InkWell(
                           onTap: () {
                             setState(() {
-                              homePresenter.delete(audiopost.id);
+                              homePresenter.delete(int.parse(audiopost.id));
                               isItRecord = false;
                               print('deleted from db success');
                               AchievementView(context,

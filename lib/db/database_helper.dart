@@ -29,7 +29,7 @@ class DatabaseHelper {
 
   void _onCreate(Database db, int newVersion) async {
     await db.execute(
-        'CREATE TABLE Favorites (id INTEGER , title TEXT, imagePath TEXT)');
+        'CREATE TABLE Favorites (id INTEGER , title TEXT, imagePath TEXT, body TEXT)');
   }
 
   Future<int> insertMovie(Favorites favorites) async {
@@ -41,7 +41,7 @@ class DatabaseHelper {
     list.length == 0
         ? res = await dbClient.insert("Favorites", favorites.toMap())
         : {};
- print(favorites.toMap());
+  print(favorites.toMap());
  
     return res;
     
@@ -57,19 +57,22 @@ class DatabaseHelper {
 
     for (var i = 0; i < list.length; i++) {
       var favorite = Favorites(
-          list[i]['id'], list[i]['title'], list[i]['imagePath']);
+          list[i]['id'], list[i]['title'], list[i]['imagePath'], list[i]['body']);
       favorite.setFavoritesId(list[i]['id']);
       favorites.add(favorite);
     }
-    print(favorites);
+    //print(favorites);
     return favorites;
   }
 
   Future<int> getCount() async {
     var dbClient = await db;
-    var sql = "SELECT COUNT(*) FROM $userTable";
+   List<Map> list = await dbClient.rawQuery('SELECT * FROM Favorites');
+int count = list.length;
 
-    return Sqflite.firstIntValue(await dbClient.rawQuery(sql));
+    // print(count);
+     return count;
+
   }
 
   Future<Favorites> getUser(int id) async {
@@ -83,14 +86,14 @@ class DatabaseHelper {
   Future<int> deleteFavorite(int id) async {
     var dbClient = await db;
     int res = await dbClient
-        .delete(userTable, where: "$columnId = ?", whereArgs: [id]);
+        .rawDelete("DELETE FROM Favorites where $columnId = ?", [id]);
     return res;
   }
 
   Future<bool> updateFavorites(Favorites favorites) async {
     var dbClient = await db;
     int res = await dbClient.update(userTable, favorites.toMap(),
-        where: "$columnId = ?", whereArgs: [favorites.id]);
+        where: "id = ?", whereArgs: <int>[favorites.id]);
     return res > 0 ? true : false;
   }
 

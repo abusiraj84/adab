@@ -1,12 +1,13 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Providers/colors.dart';
-import '../Screens/story_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'app_bar_screen.dart';
+import 'story_screen.dart';
 import 'trending_video.dart';
+import 'videos_cat_list.dart';
 //https://dribbble.com/shots/7000412-Social-App-concept-FeedUP/attachments
 
 class HomeScreen extends StatelessWidget {
@@ -26,10 +27,12 @@ class HomeScreen extends StatelessWidget {
             AppBarScreen(),
 
             //Story
-            Container(height: 120, child: StoryScreen()),
+            Container(height: 100, child: StoryScreen()),
 
             //Trending Videos
             TrendingVideos(),
+
+            VideosCatLsit(),
           ],
         ),
       ),

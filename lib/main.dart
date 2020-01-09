@@ -1,4 +1,7 @@
+import 'package:adab/Providers/cat_tab_prov.dart';
 import 'package:adab/Screens/fovrites_screen.dart';
+import 'package:adab/Screens/splash_screen.dart';
+import 'package:adab/Screens/test_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:page_transition/page_transition.dart';
@@ -19,6 +22,7 @@ class MyApp extends StatelessWidget {
       providers: [
         Provider<MyColors>(create: (_) => MyColors()),
         ChangeNotifierProvider<Videos>(create: (_) => Videos()),
+        ChangeNotifierProvider<TabsIndex>(create: (_) => TabsIndex()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -54,11 +58,19 @@ class MyApp extends StatelessWidget {
                   alignment: Alignment.center);
               break;
 
+            case '/video-detail':
+              return PageTransition(
+                  child: TestScreen(),
+                  type: PageTransitionType.scale,
+                  settings: settings,
+                  duration: Duration(milliseconds: 500),
+                  alignment: Alignment.center);
+              break;
             default:
               return null;
           }
         },
-        home: HomeScreen(),
+        home: SplashScreen(),
       ),
     );
   }

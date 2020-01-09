@@ -1,18 +1,21 @@
 import 'package:achievement_view/achievement_view.dart';
+import 'package:adab/Modals/video.dart';
+import 'package:adab/Providers/cat_tab_prov.dart';
 import 'package:adab/db/favorite_model.dart';
 import 'package:adab/db/helper_presenter.dart';
 
-import '../Providers/video.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class TrendItem extends StatefulWidget {
-  final int id;
+  final String id;
   final String title;
   final String imgUrl;
-
-  TrendItem({this.id, this.title, this.imgUrl});
+  final String body;
+  final String catname;
+  final int fav;
+  TrendItem({this.id, this.title, this.imgUrl,this.body,this.catname,this.fav});
 
   @override
   _TrendItemState createState() => _TrendItemState();
@@ -20,25 +23,32 @@ class TrendItem extends StatefulWidget {
 
 class _TrendItemState extends State<TrendItem> implements HomeContract {
   HomePresenter homePresenter;
-  bool isItRecord = false;
+  bool isItRecord;
 
   @override
   void initState() {
     super.initState();
     homePresenter = HomePresenter(this);
+    isItRecord = false;
   }
-
+@override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     final video = Provider.of<Video>(context, listen: false);
+    final tabsIndex = Provider.of<TabsIndex>(context);
 
     Future insertVideo(
         BuildContext context, HomePresenter homePresenter, data) async {
-      //Client client = Client();
+ 
       Favorites favorites = Favorites(
-        widget.id,
+        int.parse(widget.id),
         widget.title,
         widget.imgUrl,
+        widget.body,
       );
       await homePresenter.db.insertMovie(favorites);
       homePresenter.updateScreen();
@@ -59,14 +69,14 @@ class _TrendItemState extends State<TrendItem> implements HomeContract {
             },
             child: Parent(
               style: ParentStyle()
-                ..height(150)
+                ..height(120)
                 ..background.image(
                     url:
-                        'https://img.youtube.com/vi/${video.imgUrl}/maxresdefault.jpg',
+                        'https://img.youtube.com/vi/${widget.imgUrl}/maxresdefault.jpg',
                     fit: BoxFit.cover)
                 ..borderRadius(all: 22)
                 ..elevation(1)
-                ..ripple(true),
+               ,
               child: Parent(
                 style: ParentStyle()
                   ..linearGradient(colors: [
@@ -81,7 +91,7 @@ class _TrendItemState extends State<TrendItem> implements HomeContract {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         FutureBuilder<bool>(
-                            future: homePresenter.isItRecord(widget.id),
+                            future: homePresenter.isItRecord(int.parse(widget.id)),
                             builder:
                                 (BuildContext context, AsyncSnapshot snapshot) {
                               if (snapshot.hasError) print(snapshot.error);
@@ -91,103 +101,28 @@ class _TrendItemState extends State<TrendItem> implements HomeContract {
                               // print('girdi');
 
                               return isItRecord == false
-                                  ? InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          insertVideo(
-                                              context, homePresenter, data);
-                                          isItRecord = true;
-                                          print('inserted to db success');
-                                          AchievementView(context,
-                                              title: "تمت إضافته للمفضلة",
-                                              subTitle:
-                                                  "يمكنك الرجوع إليها في قسم المفضلة",
-                                              //onTab: _onTabAchievement,
-                                              icon: Icon(
-                                                Icons.favorite,
-                                                color: Colors.red,
-                                              ),
-                                              //typeAnimationContent: AnimationTypeAchievement.fadeSlideToUp,
-                                              //borderRadius: 5.0,
-                                              color: Colors.amber,
-                                              textStyleTitle: TextStyle(
-                                                fontSize: 13,
-                                                color: Colors.black,
-                                              ),
-                                              textStyleSubTitle:
-                                                  TextStyle(fontSize: 12),
-                                              alignment: Alignment.bottomCenter,
-                                              duration: Duration(seconds: 1),
-                                              //isCircle: false,
-                                              listener: (status) {
-                                            //print(status);
-                                            //AchievementState.opening
-                                            //AchievementState.open
-                                            //AchievementState.closing
-                                            //AchievementState.closed
-                                          })
-                                            ..show();
-                                        });
-                                      },
-                                      child: Icon(
-                                        Icons.favorite_border,
-                                        color: Colors.red,
-                                      ),
-                                    )
-                                  : InkWell(
-                                      onTap: () {
-                                        setState(() {
-                                          homePresenter.delete(widget.id);
-                                          isItRecord = false;
-                                          print('deleted from db success');
-                                          AchievementView(context,
-                                              title:
-                                                  "تم إزالة الفيديو من المفضلة",
-                                              subTitle: "",
-                                              //onTab: _onTabAchievement,
-                                              icon: Icon(
-                                                Icons.delete,
-                                                color: Colors.white,
-                                              ),
-                                              //typeAnimationContent: AnimationTypeAchievement.fadeSlideToUp,
-                                              //borderRadius: 5.0,
-                                              color: Colors.black,
-                                              textStyleTitle:
-                                                  TextStyle(fontSize: 13),
-                                              textStyleSubTitle:
-                                                  TextStyle(fontSize: 12),
-                                              alignment: Alignment.bottomCenter,
-                                              duration: Duration(seconds: 1),
-                                              //isCircle: false,
-                                              listener: (status) {
-                                            // print(status);
-                                            //AchievementState.opening
-                                            //AchievementState.open
-                                            //AchievementState.closing
-                                            //AchievementState.closed
-                                          })
-                                            ..show();
-                                        });
-                                      },
-                                      child: Icon(
-                                        Icons.favorite,
-                                        color: Colors.red,
-                                      ),
-                                    );
+                                  ? Icon(
+                                    Icons.favorite_border,
+                                    color: Colors.red,
+                                  )
+                                  : Icon(
+                                    Icons.favorite,
+                                    color: Colors.red,
+                                  );
                             }),
                         Spacer(),
-                        Text(
-                          '200',
-                          style: TextStyle(color: Colors.white70),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Icon(
-                          Icons.remove_red_eye,
-                          size: 20,
-                          color: Colors.white70,
-                        ),
+                        // Text(
+                        //   '200',
+                        //   style: TextStyle(color: Colors.white70),
+                        // ),
+                        // SizedBox(
+                        //   width: 10,
+                        // ),
+                        // Icon(
+                        //   Icons.remove_red_eye,
+                        //   size: 20,
+                        //   color: Colors.white70,
+                        // ),
                       ],
                     ),
                   ),
@@ -196,16 +131,17 @@ class _TrendItemState extends State<TrendItem> implements HomeContract {
             ),
           ),
           Txt(
-            video.catid.toString(),
+            widget.catname,
             style: TxtStyle()
               ..margin(right: 10, top: 10)
               ..fontSize(10)
               ..textColor(Colors.grey),
           ),
-          Txt(video.title,
+          Txt(widget.title,
               style: TxtStyle()
-                ..margin(right: 10, top: 10)
-                ..fontSize(11))
+                ..margin(right: 10, top: 5)
+                ..fontSize(13)..fontWeight(FontWeight.normal)
+                )
         ],
       ),
     );

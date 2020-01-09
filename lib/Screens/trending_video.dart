@@ -1,3 +1,5 @@
+import 'package:adab/Modals/video.dart';
+import 'package:adab/Providers/api_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Providers/videos.dart';
@@ -13,6 +15,13 @@ class TrendingVideos extends StatefulWidget {
 }
 
 class _TrendingVideosState extends State<TrendingVideos> {
+  ApiService apiService;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+apiService = ApiService();
+  }
   @override
   Widget build(BuildContext context) {
     final videosData = Provider.of<Videos>(context);
@@ -23,13 +32,13 @@ class _TrendingVideosState extends State<TrendingVideos> {
       style: ParentStyle()
         ..height(290)
         ..background.color(Colors.white)
-        ..margin(top: 20, right: 10, bottom: 20)
+        ..margin(top: 15, right: 10, bottom: 15)
         ..borderRadius(topRight: 30, bottomRight: 30)
         ..boxShadow(color: Colors.grey.shade300, blur: 10, spread: 10),
       child: Column(
         children: <Widget>[
           Parent(
-            style: ParentStyle()..margin(bottom: 30)..margin(all: 20),
+            style: ParentStyle()..margin(bottom: 10)..margin(all: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -49,14 +58,38 @@ class _TrendingVideosState extends State<TrendingVideos> {
           ),
           Container(
             height: 230,
-            child: ListView.builder(
+            child: FutureBuilder(
+              future: apiService.get() ,
+            
+              builder: (BuildContext context, AsyncSnapshot<List<Video>> snapshot) {
+                 if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                  "حدث خطأ ما: ${snapshot.error.toString()}"),
+            );}  else if (snapshot.connectionState == ConnectionState.done) {
+            List<Video> videos = snapshot.data;
+            return ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 10),
               scrollDirection: Axis.horizontal,
-              itemCount: list.length,
+              itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int i) {
+                List<Video> list = snapshot.data;
                 return ChangeNotifierProvider.value(
                   value: list[i],
-                  child: TrendItem(id: list[i].id,title:list[i].title,imgUrl: list[i].imgUrl));
+                  child: TrendItem(id: list[i].id,title:list[i].title,imgUrl: list[i].imgUrl,catname:list[i].catname));
+              },
+            );
+          }else{
+             return Align(
+               alignment: Alignment.topCenter,
+                            child: Image.asset(
+            'assets/images/loadfinal.gif',
+            width: 700,
+           
+          ),
+             );
+          }
+                
               },
             ),
           )

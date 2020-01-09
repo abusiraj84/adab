@@ -20,6 +20,12 @@ class HomePresenter {
     return db.getFavorites();
   }
 
+    Future<int> getCount() {
+     return db.getCount();
+
+  }
+
+
   Future<bool> isItRecord(id) {
     return db.isItRecord(id);
   }
@@ -27,4 +33,5 @@ class HomePresenter {
   updateScreen() {
     _view.screenUpdate();
   }
+
 }
