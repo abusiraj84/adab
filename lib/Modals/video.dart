@@ -37,7 +37,7 @@ class Video with ChangeNotifier {
 //////////////////////////////// هنا يجب عليك تغيير المتغيرات حسب الكلاس الجديد
   @override
   String toString() {
-    return 'Profile{id: $id, title: $title, body: $body, imgUrl: $imgUrl, catname: $catname}';
+    return 'Video{id: $id, title: $title, body: $body, imgUrl: $imgUrl, catname: $catname}';
   }
 }
 

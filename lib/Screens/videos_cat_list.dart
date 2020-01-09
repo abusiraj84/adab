@@ -13,19 +13,6 @@ class VideosCatLsit extends StatefulWidget {
 
 class _VideosCatLsitState extends State<VideosCatLsit> {
   ApiService apiService;
-  final List<Cat> list = [
-    Cat(
-      catName: 'معلقات',
-      catId: 1,
-    ),
-    Cat(
-      catName: 'رومنسيات',
-      catId: 2,
-    ),
-    Cat(catName: 'أدب الهجر', catId: 3),
-    Cat(catName: 'الحرب', catId: 4),
-    Cat(catName: 'شعر حديث', catId: 5),
-  ];
 
   @override
   void initState() {
@@ -36,28 +23,59 @@ class _VideosCatLsitState extends State<VideosCatLsit> {
 
   @override
   Widget build(BuildContext context) {
+        TabsIndex tabsIndex = Provider.of<TabsIndex>(context);
+
     return Expanded(
       child: Column(
         children: <Widget>[
           Container(
             height: 55,
-            child: ListView.builder(
-              itemCount: list.length,
+            child: FutureBuilder<List<Cat>>(
+              future: apiService.getCats(),
+              builder: (BuildContext context, AsyncSnapshot<List<Cat>> snapshot) {
+                 if (snapshot.hasError) print(snapshot.error);
+
+                return snapshot.hasData?
+                
+         ListView.builder(
+              itemCount: snapshot.data.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int i) {
-                return CatList(
-                    catId: list[i].catId, catName: list[i].catName, i: i);
+                    if (snapshot.hasError) print(snapshot.error);
+
+                return 
+                     snapshot.data.length== null ?Center(child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        CircularProgressIndicator(),
+        SizedBox(
+          height: 20,
+        ),
+        Text('لا توجد فيديوهات ')
+      ],
+    ),):
+                 CatList(
+                    catId: snapshot.data[i].id, catName: snapshot.data[i].title, i: i);
+              },
+            ):Align(
+               alignment: Alignment.topCenter,
+                            child: Image.asset(
+            'assets/images/loadtabs.gif',
+            width: 700,
+           
+          ),
+             );
               },
             ),
           ),
           Expanded(
             child: FutureBuilder<List<Video>>(
-              future: apiService.get(),
+              future: apiService.getbyCatId(tabsIndex.index+1),
               builder: (context, snapshot) {
                 if (snapshot.hasError) print(snapshot.error);
 
                 return snapshot.hasData
-                    ? new VideoGridView(list: snapshot.data)
+                    ?  VideoGridView(list: snapshot.data)
                     :Align(
                alignment: Alignment.topCenter,
                             child: Image.asset(
@@ -79,7 +97,7 @@ class _VideosCatLsitState extends State<VideosCatLsit> {
 class CatList extends StatefulWidget {
   CatList({this.catName, this.catId, this.i});
 
-  int catId;
+  String catId;
   String catName;
   int i;
 
@@ -145,7 +163,7 @@ class _VideoGridViewState extends State<VideoGridView> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16.0),
-      child: widget.list.length == 0? Center(child: Column(
+      child: widget.list.length == null? Center(child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         CircularProgressIndicator(),
