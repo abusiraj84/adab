@@ -43,7 +43,7 @@ apiService = ApiService();
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'الأكثر مشاهدة',
+                  'آخر الإضافات',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                 ),
                 Text(

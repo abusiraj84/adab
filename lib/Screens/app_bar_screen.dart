@@ -33,41 +33,48 @@ class _AppBarScreenState extends State<AppBarScreen> implements HomeContract {
   Widget build(BuildContext context) {
     final tabsIndex = Provider.of<TabsIndex>(context);
 
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        children: <Widget>[
-          //Text('الأدب الخالد',style: TextStyle(fontWeight: FontWeight.bold,color: myColors.yellow,fontSize: 20),),
-          Image.asset(
-            'assets/images/logoAnim.gif',
-            width: 80,
-            color: Colors.yellow[800],
-          ),
-          Spacer(),
-          Badge(badgeContent: ff() ,
+    return Parent(
+      style: ParentStyle()
+      ..background.color(Colors.white)
+      ..padding(top:30)
+      ..margin(bottom: 20)
+     ,
+          child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Row(
+          children: <Widget>[
+            //Text('الأدب الخالد',style: TextStyle(fontWeight: FontWeight.bold,color: myColors.yellow,fontSize: 20),),
+            Image.asset(
+              'assets/images/logoAnim.gif',
+              width: 80,
+              color: Colors.yellow[800],
+            ),
+            Spacer(),
+            Badge(badgeContent: ff() ,
 
-          badgeColor: Colors.amber,
-                      child: Parent(
-                style: ParentStyle()
-                  ..background.color(Colors.grey.shade300)
-                  ..elevation(1)
-                  ..borderRadius(all: 50),
-                child: Parent(
-                    style: ParentStyle()
-                      ..circle(true)
-                      ..ripple(true)
-                      ..padding(all: 8)
-                      ..borderRadius(all: 50),
-                    child: Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                      size: 15,
-                    )),
-                gesture: Gestures()
-                  ..isTap(
-                      (isPressed) => Navigator.pushNamed(context, '/favorite'))),
-          )
-        ],
+            badgeColor: Colors.amber,
+                        child: Parent(
+                  style: ParentStyle()
+                    ..background.color(Colors.grey.shade300)
+                    ..elevation(1)
+                    ..borderRadius(all: 50),
+                  child: Parent(
+                      style: ParentStyle()
+                        ..circle(true)
+                        ..ripple(true)
+                        ..padding(all: 8)
+                        ..borderRadius(all: 50),
+                      child: Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                        size: 15,
+                      )),
+                  gesture: Gestures()
+                    ..isTap(
+                        (isPressed) => Navigator.pushNamed(context, '/favorite'))),
+            )
+          ],
+        ),
       ),
     );
   }
