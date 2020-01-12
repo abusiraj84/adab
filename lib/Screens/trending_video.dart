@@ -63,10 +63,14 @@ apiService = ApiService();
             
               builder: (BuildContext context, AsyncSnapshot<List<Video>> snapshot) {
                  if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                  "حدث خطأ ما: ${snapshot.error.toString()}"),
-            );}  else if (snapshot.connectionState == ConnectionState.done) {
+            return Align(
+               alignment: Alignment.topCenter,
+                            child: Image.asset(
+            'assets/images/loadfinal.gif',
+            width: 700,
+           
+          ),
+             );}  else if (snapshot.connectionState == ConnectionState.done) {
             List<Video> videos = snapshot.data;
             return ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 10),

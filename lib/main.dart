@@ -1,7 +1,7 @@
 import 'package:adab/Providers/cat_tab_prov.dart';
 import 'package:adab/Screens/fovrites_screen.dart';
 import 'package:adab/Screens/splash_screen.dart';
-import 'package:adab/Screens/test_screen.dart';
+import 'package:adab/Screens/detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:page_transition/page_transition.dart';
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
 
             case '/video-detail':
               return PageTransition(
-                  child: TestScreen(),
+                  child: DetailScreen(),
                   type: PageTransitionType.scale,
                   settings: settings,
                   duration: Duration(milliseconds: 500),

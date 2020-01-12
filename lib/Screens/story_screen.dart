@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:adab/Modals/video.dart';
 import 'package:adab/Providers/api_service.dart';
 import 'package:adab/Providers/colors.dart';
-import 'package:adab/Screens/test_screen.dart';
+import 'package:adab/Screens/detail_screen.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -34,8 +34,11 @@ class _StoryScreenState extends State<StoryScreen> {
         builder: (BuildContext context, AsyncSnapshot<List<Video>> snapshot) {
           if (snapshot.hasError) {
             return Center(
-              child: Text(
-                  "حدث خطأ ما: ${snapshot.error.toString()}"),
+              child: Image.asset(
+            'assets/images/splash.gif',
+            width: 200,
+           
+          ),
             );
           } else if (snapshot.connectionState == ConnectionState.done) {
             List<Video> videos = snapshot.data;
@@ -108,7 +111,7 @@ final List<Video> list;
         ..isTap(
           (isPressed){ 
           
-            Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: TestScreen(id: l.id.toString(),title:l.title,imgUrl: l.imgUrl,catId: l.catname,body: l.body,)));
+            Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: DetailScreen(id: l.id.toString(),title:l.title,imgUrl: l.imgUrl,catId: l.catname,body: l.body,)));
 
 }
           ));
