@@ -1,9 +1,5 @@
 import 'package:adab/Modals/video.dart';
 import 'package:adab/Providers/api_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../Providers/videos.dart';
-
 import '../Widgets/trend_item.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
@@ -16,17 +12,16 @@ class TrendingVideos extends StatefulWidget {
 
 class _TrendingVideosState extends State<TrendingVideos> {
   ApiService apiService;
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 apiService = ApiService();
   }
+
   @override
   Widget build(BuildContext context) {
-    final videosData = Provider.of<Videos>(context);
-    final list = videosData.list;
-    SharedPreferences prefs;
+
 
     return Parent(
       style: ParentStyle()
@@ -71,7 +66,7 @@ apiService = ApiService();
            
           ),
              );}  else if (snapshot.connectionState == ConnectionState.done) {
-            List<Video> videos = snapshot.data;
+         
             return ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 10),
               scrollDirection: Axis.horizontal,

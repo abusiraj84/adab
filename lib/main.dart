@@ -8,9 +8,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
 import 'Providers/colors.dart';
-import 'Providers/videos.dart';
-import 'Screens/video_detail_screen.dart';
-import 'Screens/home_screen.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -21,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         Provider<MyColors>(create: (_) => MyColors()),
-        ChangeNotifierProvider<Videos>(create: (_) => Videos()),
+       
         ChangeNotifierProvider<TabsIndex>(create: (_) => TabsIndex()),
       ],
       child: MaterialApp(
@@ -49,14 +47,7 @@ class MyApp extends StatelessWidget {
                   alignment: Alignment.center);
               break;
 
-            case '/audio-detail':
-              return PageTransition(
-                  child: VideoDetailScreen(),
-                  type: PageTransitionType.scale,
-                  settings: settings,
-                  duration: Duration(milliseconds: 500),
-                  alignment: Alignment.center);
-              break;
+          
 
             case '/video-detail':
               return PageTransition(

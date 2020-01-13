@@ -1,8 +1,6 @@
-import 'package:adab/Providers/colors.dart';
 import '../Screens/app_bar_back_screen.dart';
 import '../Widgets/favorite_grid_view.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class FavoriteScreen extends StatelessWidget {
   static const routeName = '/favorite';

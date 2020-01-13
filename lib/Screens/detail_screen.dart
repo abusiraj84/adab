@@ -1,12 +1,9 @@
 import 'package:achievement_view/achievement_view.dart';
-import 'package:adab/Providers/api_service.dart';
-import 'package:adab/Providers/videos.dart';
 import 'package:adab/Screens/app_bar_back_screen.dart';
 import 'package:adab/db/favorite_model.dart';
 import 'package:adab/db/helper_presenter.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -31,7 +28,6 @@ class _DetailScreenState extends State<DetailScreen> implements HomeContract {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     homePresenter = HomePresenter(this);
   }
@@ -43,7 +39,6 @@ class _DetailScreenState extends State<DetailScreen> implements HomeContract {
   Widget build(BuildContext context) {
     Future insertVideo(
         BuildContext context, HomePresenter homePresenter, data) async {
-      //Client client = Client();
       Favorites favorites = Favorites(
           int.parse(widget.id), widget.title, widget.imgUrl, widget.body);
       await homePresenter.db.insertMovie(favorites);

@@ -1,7 +1,4 @@
-import 'package:achievement_view/achievement_view.dart';
 import 'package:adab/Modals/video.dart';
-import 'package:adab/Providers/cat_tab_prov.dart';
-import 'package:adab/db/favorite_model.dart';
 import 'package:adab/db/helper_presenter.dart';
 
 import 'package:division/division.dart';
@@ -33,26 +30,12 @@ class _TrendItemState extends State<TrendItem> implements HomeContract {
   }
 @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
   @override
   Widget build(BuildContext context) {
-    final video = Provider.of<Video>(context, listen: false);
-    final tabsIndex = Provider.of<TabsIndex>(context);
 
-    Future insertVideo(
-        BuildContext context, HomePresenter homePresenter, data) async {
- 
-      Favorites favorites = Favorites(
-        int.parse(widget.id),
-        widget.title,
-        widget.imgUrl,
-        widget.body,
-      );
-      await homePresenter.db.insertMovie(favorites);
-      homePresenter.updateScreen();
-    }
+
 
     return Parent(
       style: ParentStyle()

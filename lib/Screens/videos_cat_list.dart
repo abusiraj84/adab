@@ -16,7 +16,6 @@ class _VideosCatLsitState extends State<VideosCatLsit> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     apiService = ApiService();
   }
@@ -93,11 +92,11 @@ class _VideosCatLsitState extends State<VideosCatLsit> {
 }
 
 class CatList extends StatefulWidget {
-  CatList({this.catName, this.catId, this.i});
+   CatList({this.catName, this.catId, this.i});
 
-  String catId;
-  String catName;
-  int i;
+ final String catId;
+ final String catName;
+ final int i;
 
   @override
   _CatListState createState() => _CatListState();
@@ -150,7 +149,7 @@ class _CatListState extends State<CatList> {
 class VideoGridView extends StatefulWidget {
   VideoGridView({Key key, this.list}) : super(key: key);
 
-  List<Video> list;
+ final List<Video> list;
 
   @override
   _VideoGridViewState createState() => _VideoGridViewState();
@@ -164,13 +163,18 @@ class _VideoGridViewState extends State<VideoGridView> {
       child: widget.list.length == 0? Center(child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-     
+        SizedBox(
+     height: 40,
+   ),
+
        Image.asset(
             'assets/images/loadtabs.gif',
             width: 50,
            
           ),
-   
+   SizedBox(
+     height: 20,
+   ),
         Text('لا توجد فيديوهات ')
       ],
     ),):GridView.builder(

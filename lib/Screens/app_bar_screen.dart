@@ -1,10 +1,7 @@
 import 'package:adab/Providers/cat_tab_prov.dart';
-import 'package:adab/Providers/colors.dart';
-import 'package:adab/Screens/fovrites_screen.dart';
 import 'package:adab/db/helper_presenter.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart';
 

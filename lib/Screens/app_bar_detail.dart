@@ -1,7 +1,5 @@
-import 'package:adab/Providers/colors.dart';
 import 'package:division/division.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AppBarDetailScreen extends StatelessWidget {
   const AppBarDetailScreen({Key key}) : super(key: key);

@@ -77,7 +77,7 @@ final List<Video> list;
         Video l = list[i];
           return Parent(
       style: ParentStyle()
-        ..width(180)
+        ..width(100)
         ..borderRadius(all: 25)
         ..border(
           all: 3.5,
@@ -98,8 +98,8 @@ final List<Video> list;
           style: ParentStyle()
             ..circle(true)
             ..background.color(
-                myColors.multiColors[Random().nextInt(4)].withOpacity(.8))
-            ..padding(all: 10)
+                myColors.multiColors[Random().nextInt(4)].withOpacity(.6))
+            ..padding(all: 5)
             ..elevation(2),
           child: Icon(
             Icons.play_arrow,
