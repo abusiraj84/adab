@@ -160,35 +160,36 @@ class _VideoGridViewState extends State<VideoGridView> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: EdgeInsets.only( right:16.0,left: 16),
       child: widget.list.length == 0? Center(child: Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-         SizedBox(
-          height: 20,
-        ),
+     
        Image.asset(
             'assets/images/loadtabs.gif',
             width: 50,
            
           ),
-        SizedBox(
-          height: 20,
-        ),
+   
         Text('لا توجد فيديوهات ')
       ],
     ),):GridView.builder(
         itemCount: widget.list.length,
+        padding: EdgeInsets.all(5),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 20.0,
-          mainAxisSpacing: 30.0,
-          childAspectRatio: 1/2
+        crossAxisCount: 2,
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 15,
+          childAspectRatio: 1.25
+          
         ),
         itemBuilder: (BuildContext context, int index) {
-          return Container(
-            child: Column(
+          return SizedBox(
+            height: 20,
+                      child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Parent(
                   style: ParentStyle()
@@ -203,7 +204,10 @@ class _VideoGridViewState extends State<VideoGridView> {
                   ),
                 ),
                // Text(widget.list[index].catname),
-                Text(widget.list[index].title),
+                Padding(
+                  padding: const EdgeInsets.only(right: 4.0),
+                  child: Text(widget.list[index].title,style: TextStyle(fontSize: 12,height: 1.2),),
+                ),
               ],
             ),
           );

@@ -9,7 +9,7 @@ import 'package:http/http.dart' show Client;
 import '../Modals/cat.dart';
 
 class ApiService{
-  final String baseUrl = "https://abusiraj84.000webhostapp.com/adabapi/public";
+  final String baseUrl = "http://46.101.250.202/adabapi/public";
   Client client = Client();
 
  Future<List<Video>> get() async {
