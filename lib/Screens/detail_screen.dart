@@ -56,7 +56,7 @@ class _DetailScreenState extends State<DetailScreen> implements HomeContract {
     );
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade900,
+   
       body: SafeArea(
         bottom: false,
         child: Column(
@@ -67,14 +67,12 @@ class _DetailScreenState extends State<DetailScreen> implements HomeContract {
               showVideoProgressIndicator: true,
               liveUIColor: Colors.yellow,
             ),
-            SizedBox(
-              height: 40,
-            ),
+     
             Expanded(
               child: Parent(
                 style: ParentStyle()
                   ..background.color(Colors.white)
-                  ..borderRadius(topLeft: 60, topRight: 60)
+              
                   ..padding(right: 20, left: 20, top: 40),
                 child: SingleChildScrollView(
                   child: Column(

@@ -85,36 +85,34 @@ final List<Video> list;
         )
         ..elevation(1)
         ..margin(left: 5, bottom: 5,right: 10),
-      child: Parent(
-        style: ParentStyle()
-          ..background.image(
-              url: 'https://img.youtube.com/vi/${l.imgUrl}/maxresdefault.jpg',
-              fit: BoxFit.fill)
-          ..border(all: 2, color: Colors.white)
-          ..borderRadius(all: 22)
-          ..ripple(true),
-        child: Center(
-            child: Parent(
+      child: GestureDetector(
+        onTap: (){
+           Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: DetailScreen(id: l.id.toString(),title:l.title,imgUrl: l.imgUrl,catId: l.catname,body: l.body,)));
+        },
+              child: Parent(
           style: ParentStyle()
-            ..circle(true)
-            ..background.color(
-                myColors.multiColors[Random().nextInt(4)].withOpacity(.6))
-            ..padding(all: 5)
-            ..elevation(2),
-          child: Icon(
-            Icons.play_arrow,
-            color: Colors.white,
-          ),
-        )),
+            ..background.image(
+                url: 'https://img.youtube.com/vi/${l.imgUrl}/maxresdefault.jpg',
+                fit: BoxFit.fill)
+            ..border(all: 2, color: Colors.white)
+            ..borderRadius(all: 22)
+          ,
+          child: Center(
+              child: Parent(
+            style: ParentStyle()
+              ..circle(true)
+              ..background.color(
+                  myColors.multiColors[Random().nextInt(4)].withOpacity(.6))
+              ..padding(all: 5)
+              ..elevation(2),
+            child: Icon(
+              Icons.play_arrow,
+              color: Colors.white,
+            ),
+          )),
+        ),
       ),
-      gesture: Gestures()
-        ..isTap(
-          (isPressed){ 
-          
-            Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: DetailScreen(id: l.id.toString(),title:l.title,imgUrl: l.imgUrl,catId: l.catname,body: l.body,)));
-
-}
-          ));
+    );
 
      },
     );

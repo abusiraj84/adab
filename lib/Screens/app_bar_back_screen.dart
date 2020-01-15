@@ -21,18 +21,23 @@ class AppBarBackScreen extends StatelessWidget {
                 ..background.color(Colors.grey.shade300)
                 ..elevation(1)
                 ..borderRadius(all: 50),
-              child: Parent(
-                  style: ParentStyle()
-                    ..circle(true)
-                    ..ripple(true)
-                    ..padding(all: 8)
-                    ..borderRadius(all: 50),
-                  child: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.black87,
-                    size: 15,
-                  )),
-              gesture: Gestures()..isTap((isPressed) => Navigator.pop(context)))
+              child: GestureDetector(
+                onTap: (){
+                   Navigator.pop(context);
+                },
+                              child: Parent(
+                    style: ParentStyle()
+                      ..circle(true)
+                      
+                      ..padding(all: 8)
+                      ..borderRadius(all: 50),
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.black87,
+                      size: 15,
+                    )),
+              ),
+     )
         ],
       ),
     );
